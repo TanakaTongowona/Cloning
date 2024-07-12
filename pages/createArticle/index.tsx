@@ -21,7 +21,7 @@ const createArticle:NextPage = () => {
             setArticleData({...articleData, [e.target.name] : e.target.value })
 
     }
-    const createArticle = async () =>{
+    const createArticle = async () => {
        try {
         const { data, error} = await supabaseClient
             .from ("articles")
@@ -37,9 +37,9 @@ const createArticle:NextPage = () => {
             .single()
             if (error) throw error;
             setArticleData(initialState);
-            router.push("/mainfeed");
+            router.push("/mainFeed");
 
-       }catch (error:any){
+       }catch (error: any){
         alert(error.message);
        }
 
