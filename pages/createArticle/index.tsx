@@ -35,9 +35,9 @@ const createArticle:NextPage = () => {
                 }
             ])
             .single()
-            if (error) throw error;
-            setArticleData(initialState);
-            router.push("/mainFeed");
+        if (error) throw error;
+        setArticleData(initialState);
+        router.push("/mainFeed");
 
        }catch (error: any){
         alert(error.message);
