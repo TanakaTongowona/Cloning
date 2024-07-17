@@ -6,36 +6,36 @@ import { useEffect, useState } from "react";
 import { Text, Spacer, User, Button } from "@nextui-org/react";
 // localhost:3000/article?id=1
 
-const Article: NextPage = () => {
+const Finance: NextPage = () => {
     const supabaseClient = useSupabaseClient();
     const user = useUser();
     const router = useRouter();
-    const [article, setArticle] = useState<any>({});
+    const [finance, setFinance] = useState<any>({});
 
     const { id } = router.query;
 
     useEffect( () => {
-        async function getArticle() {
+        async function getFinance() {
             const {data, error} = await supabaseClient
-                .from("articles")
+                .from("personalfinance")
                 .select("*")
                 .filter("id", "eq", id)
                 .single();
             if (error) {
                 console.log(error);
             } else {
-                setArticle(data);
+                setFinance(data);
             }
         }
         if(typeof id !== "undefined") {
-            getArticle();
+            getFinance();
         }
     }, [id])
 
-    const deleteArticle = async () => {
+    const deleteFinance = async () => {
         try {
             const { data, error } = await supabaseClient
-                .from("articles")
+                .from("personalfinance")
                 .delete()
                 .eq("id", id)
             if (error) throw error;
@@ -47,24 +47,39 @@ const Article: NextPage = () => {
     
     return (
         <>
-            <Text h2>{article.title}</Text>
-            <Spacer y={.5} />
-            <User
-                name={article.user_email?.toLowerCase()}
-                size="md"
-            />
             <Spacer y={1} />
             <Text size="$lg">
-                {article.content}
+                {finance.account_balance}
             </Text>
-            { user && article.user_id === user.id ?
+            <Spacer y={1} />
+            <Text size="$lg">
+                {finance.transaction}
+            </Text>
+           
+            
+            <Spacer y={1} />
+            <Text size="$lg">
+                {finance.transaction_date}
+            </Text>
+            <Spacer y={1} />
+            <Text size="$lg">
+                {finance.amount}
+            </Text>
+            <Text h2>{finance.category}</Text>
+            <Spacer y={.5} />
+            <User
+                name={finance.user_email?.toLowerCase()}
+                size="md"
+            />
+            
+            { user && finance.user_id === user.id ?
                 <>
                     <Spacer y={.5} />
-                    <Button size="sm" onPress={() => router.push("/editArticle?id=" + id)}> {/* localhost:3000/editArticle */}
+                    <Button size="sm" onPress={() => router.push("/editFinance?id=" + id)}> {/* localhost:3000/editArticle */}
                         Edit
                     </Button>
                     <Spacer y={.5} />
-                    <Button size="sm" color="error" onPress={() => deleteArticle()}>
+                    <Button size="sm" color="error" onPress={() => deleteFinance()}>
                         Delete
                     </Button>
                 </>
@@ -73,4 +88,4 @@ const Article: NextPage = () => {
     )
 }
 
-export default Article;
+export default Finance;

@@ -11,10 +11,10 @@ const Home: NextPage = () => {
    
      
      
-      <Text h2 size="$7xl">The future of article sharing</Text>
+      <Text h2 size="$5xl">The future of expense and income tracking</Text>
       <Spacer y={1} />
       <Text h2 size="$5xl">
-        Share Articles allows you to create and share articles.
+        Personal Finance tracker allows you to record your incomes and expenses
       </Text>
       
     </>

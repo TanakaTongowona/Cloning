@@ -5,17 +5,17 @@ import {Card, Text } from "@nextui-org/react"
 
 
 interface Props{
-    article: any
+    finance: any
 }
-const ArticleCard: NextPage<Props> = (props) =>{
+const FinanceCard: NextPage<Props> = (props) =>{
     const router = useRouter();
-    const { article} = props;
+    const { finance} = props;
     //inserted at date string
     //console.log(inserted at)
 
     function getDate(){
         // dd--mm--yyy
-        let time = Date.parse(article.inserted_at);
+        let time = Date.parse(finance.inserted_at);
         let date = new Date (time);
 
 
@@ -28,19 +28,20 @@ const ArticleCard: NextPage<Props> = (props) =>{
         <Card
         isPressable
         css = {{mb: "$10"}}
-        onPress= {() =>router.push("/article?id=" + article.id)}
+        onPress= {() =>router.push("/finance?id=" + finance.id)}
         >
         <Card.Body>
-            <Text h2>{article.title}</Text>
+            <Text h2>{finance.transaction}</Text>
+
             <Text b>posted</Text>
-            <Text b>By {article.user_email.toLowerCase ()}</Text>
+            <Text b>By {finance.user_email.toLowerCase ()}</Text>
         </Card.Body>
         </Card>
     )
 
 }
 
-export default ArticleCard
+export default FinanceCard
 
 
 

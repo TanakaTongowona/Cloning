@@ -16,11 +16,11 @@ const NavbarComponent = () => {
     return (
         <Navbar isBordered isCompact>
             <Navbar.Brand as={Link} href="/">
-                ShareArticles
+                Track Finances
             </Navbar.Brand>
             <Navbar.Content hideIn="xs" variant="highlight-rounded">
                 <Navbar.Link href="/mainFeed"  >Main Feed</Navbar.Link>
-                <Navbar.Link href="/createArticle">Create Article</Navbar.Link>
+                <Navbar.Link href="/recordFinances">Record Finances</Navbar.Link>
             </Navbar.Content>
 
             <Navbar.Content>

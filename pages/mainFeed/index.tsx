@@ -4,27 +4,28 @@ import { useRouter } from "next/router";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useState, useEffect } from "react";
 import {Text} from "@nextui-org/react";
-import ArticleCard from '../../components/ArticleCard';
+import FinanceCard from "../../components/FinanceCard"
+
 
 const MainFeed: NextPage = () => {
     const supabaseClient = useSupabaseClient();
     const user = useUser();
     const router = useRouter();
-    const [articles, setArticles] = useState<string[]>([]);
+    const [finances, setFinances] = useState<string[]>([]);
 
     useEffect(() => {
-        getArticles();
+        getFinances();
     }, []);
 
-    const getArticles = async () => {
+    const getFinances = async () => {
         try {
             const { data, error } = await supabaseClient
-                .from("articles")
+                .from("personalfinance")
                 .select("*")
                 .limit(10)
             console.log(data);
             if(data != null) {
-                setArticles(data);
+                setFinances(data);
             }
         } catch (error: any) {
             alert(error.message);
@@ -43,12 +44,13 @@ const MainFeed: NextPage = () => {
         <>
             <Text h2>Main Feed</Text>
             <Text size="$lg" css={{my: "$8"}}>
-                Check out articles from users here
+                Check out incomes and expenses from here
             </Text>
             {/* Article Card */}
-            {articles.map((article) => (
-                <ArticleCard article={article}/>
+            {finances.map((finance) => (
+                <FinanceCard finance={finance}/>
             ))}
+            
         </>
     )
 }
