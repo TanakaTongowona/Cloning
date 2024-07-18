@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser, useSupabaseClient, SupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { Text, Textarea, Grid, Button} from "@nextui-org/react"
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
@@ -57,6 +57,45 @@ const recordFinances: NextPage =  () => {
   
 
     console.log(financeData);
+//function to retrieve transactions from the supabase
+
+
+const personalfinance  =  supabaseClient
+    .from('personalfinance')
+    .select('amount,category')
+  
+
+   
+personalfinance.then (({data, error}) =>{
+  if (data) {
+//filter expenes and incomes
+const expenses = data.filter((transaction: { category: string; }) => transaction.category === 'expenses');
+const incomes = data.filter((transaction: { category: string; }) => transaction.category === 'incomes');
+// Calculate total expenses and map amounts
+const totalExpenses = expenses.reduce((total: any, expense: { amount: any; }) => total + expense.amount, 0);
+
+// Calculate total incomes and map amounts
+const totalIncomes = incomes.reduce((total: any, income: { amount: any; }) => total + income.amount, 0);
+
+const balance = totalIncomes - totalExpenses;
+
+console.log(`Account_balance: ${balance}`);
+
+  }else {
+    console.error(error);
+  }
+});
+// use real time updates 
+const channel = supabaseClient
+    .from('personalfinance')
+    .on('UPDATE', (payload: any) =>{
+         //payload contains the updated data
+     const newBalance = accountBalance(payload);
+     document.getElementById('account-balance').innerHTML= newBalance;
+
+    }).subscribe();
+
+
 
 
 
@@ -91,16 +130,10 @@ return(
         />
        </Grid>
        <Text h3>Category</Text>
-       <select name="category" id="category">
-           <option value="none">None</option>
-           <option value="expenses">Expenses</option>
-           <option value="incomes">Incomes</option>
- 
-        </select>
         <Textarea
           name="category"
           aria-label="category"
-          placeholder="Enter the value from the abobe options"
+          placeholder="Enter the value from the above options"
           fullWidth={true}
           rows={2}
           size="xl"
@@ -126,7 +159,7 @@ return(
         
         />
        </Grid>
-       <Text h3>Account-balance</Text>
+       <Text h3 id="account-balance">Account-balance</Text>
        <Grid xs ={12}>
         <Textarea
           name="account_balance"
@@ -157,4 +190,8 @@ return(
 }
 export default recordFinances;
 export const getServerSideProps = withPageAuth({ redirectTo: "/login"});
+
+function accountBalance(payload: any) {
+  throw new Error("Function not implemented.");
+}
 

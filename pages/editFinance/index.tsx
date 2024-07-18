@@ -108,17 +108,11 @@ return(
         />
        </Grid>
        <Text h3>Category</Text>
-       <select name="dropdown" id="dropdown">
-           <option value="none">None</option>
-           <option value="expenses">Expenses</option>
-           <option value="incomes">Incomes</option>
- 
-        </select>
         <Textarea
          
          name="category"
          aria-label="category"
-         placeholder="Enter the value from the abobe options"
+         placeholder="Enter the value from the above options"
          fullWidth={true}
          rows={2}
          size="xl"
